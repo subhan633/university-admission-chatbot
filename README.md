@@ -2,7 +2,8 @@
 
 An interactive AI-powered chatbot built with **Flask** to assist students with **Superior University admissions, fees, scholarships, and campus inquiries** in a friendly conversational way.
 
-<img width="960" alt="2025-07-04 (1)" src="https://github.com/user-attachments/assets/da7d5117-f054-4997-9b3d-a29e984bb555" />
+<img width="677" alt="uni-chatbot" src="https://github.com/user-attachments/assets/64e02233-5fd6-41ac-b9a4-23f82c6e4ae2" />
+
 
 ---
 
