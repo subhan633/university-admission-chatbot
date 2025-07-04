@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎓 Superior University Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+   
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <img src="{{ url_for('static', filename='university_logo3.png') }}" alt="Superior University Logo" class="logo">
+    </div>
+
+    <div class="card shadow p-4">
+      <div class="chat-container" id="chat-container">
+        {% for role, msg in chat_history %}
+          {% if role == 'user' %}
+            <div class="chat-bubble user">
+              <p><strong>You:</strong> {{ msg }}</p>
+            </div>
+          {% else %}
+            <div class="chat-bubble bot">
+              <p><strong>Bot:</strong> {{ msg|safe }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <form id="chat-form" class="d-flex mt-3">
+        <input type="text" name="user_input" id="user_input" placeholder="Ask your question..." class="form-control me-2" required>
+        <button type="submit" class="btn btn-success">Send</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const chatForm = document.getElementById("chat-form");
+    const userInput = document.getElementById("user_input");
+    const chatContainer = document.getElementById("chat-container");
+
+    function scrollToBottom() {
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function typeText(element, html, speed = 25) {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+      const nodes = Array.from(tempDiv.childNodes);
+      let i = 0;
+
+      function typeNode() {
+        if (i >= nodes.length) return;
+        const node = nodes[i];
+        const clone = node.cloneNode(true);
+        element.appendChild(clone);
+        i++;
+        scrollToBottom();
+
+        if (node.nodeType === Node.TEXT_NODE) {
+          const text = node.textContent;
+          let j = 0;
+          clone.textContent = "";
+
+          const textInterval = setInterval(() => {
+            clone.textContent += text.charAt(j);
+            j++;
+            scrollToBottom();
+            if (j >= text.length) {
+              clearInterval(textInterval);
+              typeNode();
+            }
+          }, speed);
+        } else {
+          typeNode();
+        }
+      }
+
+      typeNode();
+    }
+
+    chatForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const message = userInput.value.trim();
+      if (message === "") return;
+
+      chatContainer.innerHTML += `
+        <div class="chat-bubble user">
+          <p><strong>You:</strong> ${message}</p>
+        </div>
+      `;
+      scrollToBottom();
+      userInput.value = "";
+
+      const typingBubble = document.createElement("div");
+      typingBubble.className = "chat-bubble bot typing";
+      typingBubble.innerHTML = `<p><strong>Bot:</strong> <span id="typing">Typing...</span></p>`;
+      chatContainer.appendChild(typingBubble);
+      scrollToBottom();
+
+      fetch("/send_message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_input: message }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          typingBubble.remove();
+
+          const botBubble = document.createElement("div");
+          botBubble.className = "chat-bubble bot";
+          const botMsg = document.createElement("p");
+          botMsg.innerHTML = "<strong>Bot:</strong> ";
+          const botTextSpan = document.createElement("span");
+          botMsg.appendChild(botTextSpan);
+          botBubble.appendChild(botMsg);
+          chatContainer.appendChild(botBubble);
+
+          typeText(botTextSpan, data.bot_response);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    });
+  </script>
+</body>
+</html>
