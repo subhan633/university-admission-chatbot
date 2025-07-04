@@ -33,9 +33,6 @@ git clone https://github.com/yourusername/superior-university-chatbot.git
 cd superior-university-chatbot
 
 2️⃣ (Optional) Create a virtual environment:
-bash
-Copy
-Edit
 python -m venv venv
 # Activate:
 # Windows:
@@ -44,21 +41,12 @@ venv\Scripts\activate
 source venv/bin/activate
 
 3️⃣ Install dependencies:
-bash
-Copy
-Edit
 pip install -r requirements.txt
 
 4️⃣ Run the Flask app:
-bash
-Copy
-Edit
 python app.py
 
 5️⃣ Open your browser and go to:
-cpp
-Copy
-Edit
 http://127.0.0.1:5000/
 
 🛠 Technologies Used
