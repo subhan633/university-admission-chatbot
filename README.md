@@ -28,13 +28,11 @@ An interactive AI-powered chatbot built with **Flask** to assist students with *
 ## 🚀 Installation
 
 1️⃣ Clone this repository:
-
 ```bash
 git clone https://github.com/yourusername/superior-university-chatbot.git
 cd superior-university-chatbot
 
 2️⃣ (Optional) Create a virtual environment:
-
 bash
 Copy
 Edit
@@ -46,22 +44,36 @@ venv\Scripts\activate
 source venv/bin/activate
 
 3️⃣ Install dependencies:
-
 bash
 Copy
 Edit
 pip install -r requirements.txt
 
 4️⃣ Run the Flask app:
-
 bash
 Copy
 Edit
 python app.py
 
 5️⃣ Open your browser and go to:
-
 cpp
 Copy
 Edit
 http://127.0.0.1:5000/
+
+🛠 Technologies Used
+Python 🐍
+Flask 🌶
+HTML, CSS (Bootstrap)
+JavaScript (for smooth scrolling & typing animations)
+
+🎯 Future Scope
+✅ Integration with LLaMA, GPT-4, or Gemini models for advanced conversations
+✅ Deployment on Render/Heroku/Vercel for online access
+✅ Database integration for persistent chat history
+
+📩 Contributing
+Contributions are welcome! Please open an issue or submit a pull request.
+
+📜 License
+This project is for educational and portfolio purposes. Adapt as needed for your use cases.
